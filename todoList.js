@@ -2,6 +2,7 @@ var todoList = {
   todos: [],
   displayTodos: function() {
     //  if user tries to submit an empty Todo submisson
+    
     if (this.todos.length === 0) {
       console.log('Your todo list is empty!');
     }
@@ -67,14 +68,31 @@ var todoList = {
   }
 };
 
+todoList.addTodo('first');
+todoList.addTodo('second');
+todoList.addTodo('third');
 
-console.log(todoList.addTodo('first'));
-console.log(todoList.addTodo('second'));
-console.log(todoList.addTodo('third'));
+// console.log(todoList.toggleCompleted(1));
+// console.log(todoList.toggleCompleted(0));
+// console.log(todoList.toggleCompleted(2));
 
-console.log(todoList.toggleCompleted(1));
-console.log(todoList.toggleCompleted(0));
-console.log(todoList.toggleCompleted(2));
+// console.log(todoList.toggleAll())
 
-console.log(todoList.toggleAll())
+// GET ACCESS TO THE DISPLAY TODOS BUTTON
+// RUN THE DISPLAYTODOS METHOD WHEN SOMEONE CLICKS THE DISLAY TODOS BUTTON
 
+
+ var handlers = {
+   displayTodos: function() {
+     todoList.displayTodos();
+   },
+   toggleAll: function() {
+     todoList.toggleAll();
+   },
+   addTodos: function() {
+     var addTodoTextInput = document.getElementById('addTodoTextInput');
+     todoList.addTodo(addTodoTextInput.value);
+     addTodoTextInput.value = '';
+   }
+ };
+ 
