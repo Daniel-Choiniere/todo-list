@@ -99,8 +99,31 @@ var handlers = {
   changeTodo: function() {
     var changeTodoPositionInput = document.getElementById('changeTodoPositionInput');
     var changeTodoTextInput = document.getElementById('changeTodoTextInput');
-    todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value)
+    todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value);
     changeTodoPositionInput.value = "";
     changeTodoTextInput.value = "";
+  },
+  deleteTodo: function() {
+    var deleteTodoPositionInput = document.getElementById('deleteTodoPositionInput');
+    todoList.deleteTodo(deleteTodoPositionInput.valueAsNumber);
+    deleteTodoPositionInput.value = "";
+  },
+  toggleCompleted: function() {
+    var toggleCompletedPositionInput = document.getElementById('toggleCompletedPositionInput');
+    todoList.toggleCompleted(toggleCompletedPositionInput.valueAsNumber);
+  
+  }
+  
+};
+
+var view = {
+  displayTodos : function() {
+    for (var i = 0; i < todoList.todos.length; i++) {
+      var todosUl = document.querySelector('ul');
+      var todoLi = document.createElement('li');
+      todosUl.appendChild(todoLi)
+    
+    
+    }
   }
 };
