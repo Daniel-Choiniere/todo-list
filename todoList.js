@@ -3,7 +3,7 @@ var todoList = {
   addTodo: function(todoText) {
     this.todos.push({
       todoText: todoText,
-      completed: false
+      completed: false,
     });
   },
 
@@ -23,40 +23,28 @@ var todoList = {
   toggleAll: function() {
     var totalTodos = this.todos.length;
     var completedTodos = 0;
-    // Get number of completed (checked) Todos
-    for (var i = 0; i < totalTodos; i++) {
-      if (this.todos[i].completed === true) {
+ 
+    this.todos.forEach(function(todo) {
+      if (todo.completed === true) {
         completedTodos++;
       }
-    }
-    // If all Todos are completed, make everything false (not checked)
-    if (completedTodos === totalTodos) {
-      for (var i = 0; i < totalTodos; i++) {
-        this.todos[i].completed = false;
+    });
+    
+    this.todos.forEach(function(todo) {
+        // If all Todos are completed, make everything false (not checked)
+      if (completedTodos === totalTodos) {
+        todo.completed = false;
+        // If only some Todos or none are completed, make the rest true (checked)
+      } else {
+        todo.completed = true;
       }
-      //  If only some Todos are completed, make the rest true (checked)
-    }
-    else {
-      for (var i = 0; i < totalTodos; i++) {
-        this.todos[i].completed = true;
-      }
-    }
+    });
   }
 };
 
-// todoList.addTodo('first');
-// todoList.addTodo('second');
-// todoList.addTodo('third');
-
-// console.log(todoList.toggleCompleted(1));
-// console.log(todoList.toggleCompleted(0));
-// console.log(todoList.toggleCompleted(2));
-
-// console.log(todoList.toggleAll())
 
 // GET ACCESS TO THE DISPLAY TODOS BUTTON
 // RUN THE DISPLAYTODOS METHOD WHEN SOMEONE CLICKS THE DISLAY TODOS BUTTON
-
 
 var handlers = {
   toggleAll: function() {
@@ -77,11 +65,9 @@ var handlers = {
     changeTodoTextInput.value = "";
     view.displayTodos();
   },
-  deleteTodo: function() {
-    var deleteTodoPositionInput = document.getElementById('deleteTodoPositionInput');
-    todoList.deleteTodo(deleteTodoPositionInput.valueAsNumber);
-    deleteTodoPositionInput.value = "";
-    view.displayTodos();
+  deleteTodo: function(position) {
+      todoList.deleteTodo(position);    
+      view.displayTodos();
   },
   toggleCompleted: function() {
     var toggleCompletedPositionInput = document.getElementById('toggleCompletedPositionInput');
@@ -106,10 +92,30 @@ var view = {
         todoTextWithCompletion = '( ) ' + todo.todoText; 
       }
       
+      todoLi.id = i;
       todoLi.textContent = todoTextWithCompletion;
+      todoLi.appendChild(this.createDeleteButton());
       todosUl.appendChild(todoLi);
       
     
     }
+  },
+  createDeleteButton: function() {
+    var deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.className = 'deleteButton';
+    return deleteButton;
   }
 };
+
+var todosUl = document.querySelector('ul');
+
+todosUl.addEventListener('click', function() {
+  console.log(event.target.parentNode.id);
+  
+  var elementClicked = event.target;
+  
+  if (elementClicked.className === 'deleteButton' ) {
+    handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
+  }
+});
